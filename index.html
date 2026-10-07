@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💚💙 Sana Bir Şey Var</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    min-height:100vh;
+    background:linear-gradient(135deg,#001f17,#00152b);
+    color:white;
+    font-family:Arial,sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+.card{
+    width:90%;
+    max-width:420px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(15px);
+    text-align:center;
+    box-shadow:0 0 40px rgba(0,255,180,.2);
+}
+
+h1{
+    color:#35ffb0;
+}
+
+input,textarea{
+    width:100%;
+    padding:15px;
+    margin:8px 0;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    font-size:16px;
+}
+
+textarea{
+    height:120px;
+    resize:none;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:10px;
+    border:none;
+    border-radius:12px;
+    background:#20e890;
+    color:#00150e;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.heart{
+    position:fixed;
+    font-size:25px;
+    animation:fall linear infinite;
+    opacity:.8;
+}
+
+@keyframes fall{
+    from{transform:translateY(-100px)}
+    to{transform:translateY(110vh)}
+}
+</style>
+</head>
+
+<body>
+
+<div id="hearts"></div>
+
+<div class="card">
+    <h1>💚 Sana Bir Şey Var 💙</h1>
+
+    <input id="name" placeholder="Adınızı yazınız">
+
+    <textarea id="note"
+    placeholder="Notunuzu yazınız"></textarea>
+
+    <button onclick="createLink()">
+        💌 Link Oluştur
+    </button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+
+function createHearts(){
+
+    const container=document.getElementById("hearts");
+
+    for(let i=0;i<25;i++){
+
+        const heart=document.createElement("div");
+
+        heart.className="heart";
+
+        heart.innerHTML=
+            Math.random()>0.5 ? "💚" : "💙";
+
+        heart.style.left=
+            Math.random()*100+"%";
+
+        heart.style.animationDuration=
+            (4+Math.random()*5)+"s";
+
+        heart.style.animationDelay=
+            Math.random()*5+"s";
+
+        container.appendChild(heart);
+    }
+}
+
+function createLink(){
+
+    const name=
+        document.getElementById("name").value.trim();
+
+    const note=
+        document.getElementById("note").value.trim();
+
+    if(!name || !note){
+        alert("Önce isim ve not yaz knk 😄");
+        return;
+    }
+
+    const data=btoa(
+        encodeURIComponent(
+            JSON.stringify({
+                name:name,
+                note:note
+            })
+        )
+    );
+
+    const link=
+        window.location.origin+
+        window.location.pathname+
+        "?gift="+data;
+
+    document.getElementById("result").innerHTML=
+        "Linkin hazır 💚<br><br>"+
+        "<input value='"+link+"' readonly>"+
+        "<button onclick=\"navigator.clipboard.writeText('"+
+        link+
+        "')\">📋 Linki Kopyala</button>";
+}
+
+createHearts();
+
+</script>
+
+</body>
+</html>
